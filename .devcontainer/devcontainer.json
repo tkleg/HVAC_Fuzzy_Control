@@ -1,0 +1,19 @@
+{
+    "name": "HVAC Fuzzy Control",
+    "build": {
+        "dockerfile": "DockerFile",
+        "context": ".."
+    },
+    "features": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.pylint"
+            ]
+        }
+    },
+    "forwardPorts": [],
+    "postCreateCommand": "",
+    "remoteUser": "root"
+}
