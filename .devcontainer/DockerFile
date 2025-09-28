@@ -3,8 +3,34 @@ FROM python:3.13-slim
 RUN apt-get update && apt-get install -y \
     curl \
     git \
-    gnuplot
+    gnuplot \
+    xvfb \
+    x11-apps \
+    x11-utils \
+    xauth \
+    python3-tk \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements file and install packages
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt && pip install -U scikit-fuzzy
+
+# Create startup script for Xvfb
+#RUN echo '#!/bin/bash\n\
+# Start Xvfb in background\n\
+#Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &\n\
+#export DISPLAY=:99\n\
+# Execute the original command\n\
+#exec "$@"' > /usr/local/bin/start-with-display.sh && \
+#    chmod +x /usr/local/bin/start-with-display.sh
+
+# Set DISPLAY environment variable permanently
+#ENV DISPLAY=:99
+
+# Create matplotlib config directory and set backend
+#RUN mkdir -p /root/.config/matplotlib && \
+#    echo "backend: TkAgg" > /root/.config/matplotlib/matplotlibrc
+
+# Copy and set up gnuplot configuration
+#COPY .gnuplot_config /root/.gnuplot
