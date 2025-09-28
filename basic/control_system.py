@@ -25,12 +25,21 @@ for i in range(len(temp)):
         
         Z[j, i] = simulator.output['ac_heater_power']  # Store result at correct position
         print(f'Temperature: {x}, Humidity: {y} => AC/Heater Power: {Z[j, i]}')
-fig = plt.figure()
+
+fig = plt.figure(figsize=(10, 7))
 ax = plt.axes(projection='3d')
 
-ax.plot3D(TEMP, HUM, Z)
+# Use plot_surface instead of plot3D for better color mapping
+surf = ax.plot_surface(TEMP, HUM, Z, cmap='viridis', alpha=0.8, 
+                      linewidth=0)
+
 ax.set_xlabel('Temperature (°C)')
 ax.set_ylabel('Humidity (%)')
 ax.set_zlabel('AC/Heater Power (%)')
 ax.set_title('Fuzzy Control Surface for AC/Heater Power')
-plt.savefig('fuzzy_control_surface.png')
+
+# Add color scale/colorbar
+colorbar = fig.colorbar(surf, shrink=0.5, aspect=20, pad=0.1)
+colorbar.set_label('AC/Heater Power (%)', rotation=270, labelpad=20)
+
+plt.savefig('fuzzy_control_surface.png', dpi=300, bbox_inches='tight')
