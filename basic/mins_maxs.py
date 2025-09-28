@@ -1,0 +1,5 @@
+TEMP_MIN = -50
+TEMP_MAX = 50
+
+HUM_MIN = 0
+HUM_MAX = 100
