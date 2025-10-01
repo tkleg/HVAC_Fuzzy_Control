@@ -1,3 +1,4 @@
+import os
 import skfuzzy.control as ctrl
 import numpy as np
 import matplotlib.pyplot as plt
@@ -42,4 +43,13 @@ ax.set_title('Fuzzy Control Surface for AC/Heater Power')
 colorbar = fig.colorbar(surf, shrink=0.5, aspect=20, pad=0.1)
 colorbar.set_label('AC/Heater Power (%)', rotation=270, labelpad=20)
 
-plt.savefig('fuzzy_control_surface.png', dpi=300, bbox_inches='tight')
+pattern = 'outputs/ac_heater_power/surface_[0-9]*.png'
+pattern[pattern.index('surface_')+7:pattern.index('.png')]
+max_file_num = 0
+
+for file in os.listdir('outputs/ac_heater_power'):
+    max_file_num = max(max_file_num, int(file[file.index('surface_')+8:file.index('.png')]))
+if max_file_num == 0:
+    max_file_num = 1
+
+plt.savefig(f'outputs/ac_heater_power/surface_{max_file_num}.png', dpi=300, bbox_inches='tight')
