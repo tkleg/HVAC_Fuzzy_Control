@@ -1,3 +1,4 @@
+import numpy as np
 import skfuzzy as fuzz
 import skfuzzy.control as ctrl
 import mins_maxs as mm
@@ -22,6 +23,15 @@ ac_heater_power = ctrl.Consequent(universes['ac_heater_power'], 'ac_heater_power
 ac_heater_power['cooling'] = 1 - fuzz.trapmf(universes['ac_heater_power'], [-50, 0, mm.AC_HEATER_POWER_MAX, mm.AC_HEATER_POWER_MAX])
 ac_heater_power['off'] = fuzz.trimf(universes['ac_heater_power'], [-10, 0, 10])
 ac_heater_power['heating'] = fuzz.trimf(universes['ac_heater_power'], [0, mm.AC_HEATER_POWER_MAX, mm.AC_HEATER_POWER_MAX])
+
+# Weighted cooling (1.5x importance, but clamped to max 1.0)
+ac_heater_power['cooling_temp'] = np.minimum(ac_heater_power['cooling'].mf * 1.5, 1.0)
+
+# Weighted heating (1.5x importance, but clamped to max 1.0) 
+ac_heater_power['heating_temp'] = np.minimum(ac_heater_power['heating'].mf * 1.5, 1.0)
+
+# Weighted off (1.5x importance, but clamped to max 1.0)
+ac_heater_power['off_temp'] = np.minimum(ac_heater_power['off'].mf * 1.5, 1.0)
 
 variables = {'temperature': temperature, 'humidity': humidity, 'ac_heater_power': ac_heater_power}
 units = {'temperature': '°C', 'humidity': '%', 'delta_temp': '°C', 'delta_humidity': '%',
