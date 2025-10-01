@@ -21,7 +21,7 @@ temp_only_rules = [
     ctrl.Rule(temp['warm'], ac_heater['off']),
     ctrl.Rule(temp['hot'], ac_heater['cooling'])
 ]
-rules.extend(temp_only_rules)
+#rules.extend(temp_only_rules)
 
 
 #Humidity only rules

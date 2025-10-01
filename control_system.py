@@ -44,10 +44,25 @@ colorbar = fig.colorbar(surf, shrink=0.5, aspect=20, pad=0.1)
 colorbar.set_label('AC/Heater Power (%)', rotation=270, labelpad=20)
 
 max_file_num = 0
+print( os.listdir('outputs/ac_heater_power'))
 for file in os.listdir('outputs/ac_heater_power'):
-    max_file_num = max(max_file_num, int(file[file.index('surface_')+8:file.index('.png')]))
+    max_file_num = max(max_file_num, int(file[file.index('_')+1:file.index('.png')]))
 max_file_num += 1
 
 ac_heater_power_output_path = f'outputs/ac_heater_power/surface_{max_file_num}.png'
 plt.savefig(ac_heater_power_output_path, dpi=300, bbox_inches='tight')
 print(f'AC/Heater power surface saved to {ac_heater_power_output_path}')
+plt.clf()
+
+heatmap = plt.imshow(Z, cmap='viridis', origin='lower', aspect='equal',
+                     extent=[temp[0], temp[-1], hum[0], hum[-1]])
+
+plt.colorbar(heatmap, label='AC/Heater Power (%)')
+plt.xlabel('Temperature (°C)')
+plt.ylabel('Humidity (%)')
+plt.title('Fuzzy Control System - 2D Heatmap')
+
+heatmap_output_path = f'outputs/ac_heater_power/heatmap_{max_file_num}.png'
+plt.savefig(heatmap_output_path, dpi=300, bbox_inches='tight')
+print(f'AC/Heater power heatmap saved to {heatmap_output_path}')
+plt.close()
