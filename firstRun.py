@@ -9,7 +9,7 @@ from environment_simulator import calc_new_temp_and_hum
 controller = ctrl.ControlSystem(rules)
 simulator = ctrl.ControlSystemSimulation(controller)
 
-initial_temp = 22  # Initial room temperature in Celsius
+initial_temp = 40  # Initial room temperature in Celsius
 initial_hum = 50   # Initial room humidity in percentage
 initial_delta_temp = 0  # Initial change in temperature
 

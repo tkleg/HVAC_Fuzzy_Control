@@ -45,7 +45,7 @@ def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour):
     thermal_conductivity = 0.002  # W/(m·K) Concrete
     wall_area = 20 * 3 * 4  # m^2 (4 walls, 3m tall, 20m wide)
     wall_thickness = 0.3 # m
-    temp_difference = temp - outdoor_temp_by_hour[hour]  # in Celsius
+    temp_difference = temp - outdoor_temp_by_hour(hour)  # in Celsius
 
     heat_loss = (thermal_conductivity * wall_area * temp_difference) / wall_thickness  # in Celsius
 

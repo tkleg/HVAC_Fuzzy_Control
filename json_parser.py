@@ -25,11 +25,9 @@ for index_day, day in enumerate(forecasts):
 #humidities = np.array(humidities) * np.random.uniform(1 - percent_noise / 100, 1 + percent_noise / 100, size=len(humidities))
 
 #Cubic Spline Interpolation
-#x = np.arange(0, 24*14, 1)
-
-
-outdoor_temp_by_hour = temps
-outdoor_humidity_by_hour = humidities
+x = np.arange(0, 24*14, 1)
+outdoor_temp_by_hour = CubicSpline(x, temps)
+outdoor_humidity_by_hour = CubicSpline(x, humidities)
 
 if __name__ == "__main__":
     for i in range(0, 24*14):
