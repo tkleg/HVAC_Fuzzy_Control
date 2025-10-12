@@ -34,7 +34,7 @@ def kelvin_to_celsius(temp_k):
 def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour):
     """Calculate the new temperature after applying power for a given time step."""
 
-    ac_heater_max_power = 2000  # in Watts
+    ac_heater_max_power = 750  # in Watts
 
     specific_heat = specific_heat_by_humidity(humidity)  # J/(kg·K)
     
@@ -45,13 +45,14 @@ def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour):
     thermal_conductivity = 0.002  # W/(m·K) Concrete
     wall_area = 20 * 3 * 4  # m^2 (4 walls, 3m tall, 20m wide)
     wall_thickness = 0.3 # m
-    temp_difference = temp - outdoor_temp_by_hour(hour)  # in Celsius
+    temp_difference = temp - outdoor_temp_by_hour[hour]  # in Celsius
 
     heat_loss = (thermal_conductivity * wall_area * temp_difference) / wall_thickness  # in Celsius
 
     sum_power -= heat_loss
 
-    temp_change = (sum_power * 3600) / (air_mass * specific_heat)  # in Kelvin
+    # 5 for 5 seconds
+    temp_change = (sum_power * 5) / (air_mass * specific_heat)  # in Kelvin
 
     return {"temperature": temp + temp_change, "humidity": humidity}
 

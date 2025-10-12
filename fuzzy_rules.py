@@ -5,7 +5,7 @@ temp = variables['temperature']
 hum = variables['humidity']
 ac_heater = variables['ac_heater_power']
 delta_temp = variables['delta_temperature']
-delta_hum = variables['delta_humidity']
+#delta_hum = variables['delta_humidity']
 
 rules = []
 
@@ -54,8 +54,8 @@ rules.extend(temp_and_hum_rules)
 
 #Combined temp and delta temp rules
 temp_and_delta_temp_rules_obvious = [
-    ctrl.Rule(temp['freezing'] & delta_hum['decreasing'], ac_heater['heating']),
-    ctrl.Rule(temp['hot'] & delta_hum['increasing'], ac_heater['cooling'])
+    ctrl.Rule(temp['freezing'] & delta_temp['decreasing'], ac_heater['heating']),
+    ctrl.Rule(temp['hot'] & delta_temp['increasing'], ac_heater['cooling'])
 ]
 rules.extend(temp_and_delta_temp_rules_obvious)
 
