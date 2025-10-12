@@ -51,8 +51,8 @@ def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour):
 
     sum_power -= heat_loss
 
-    # 5 for 5 seconds
-    temp_change = (sum_power * 5) / (air_mass * specific_heat)  # in Kelvin
+    # 5 minute step, 60 seconds per minute, time in seconds
+    temp_change = (sum_power * 5 * 60) / (air_mass * specific_heat)  # in Kelvin
 
     return {"temperature": temp + temp_change, "humidity": humidity}
 

@@ -30,8 +30,7 @@ outdoor_temp_by_hour = CubicSpline(x, temps)
 outdoor_humidity_by_hour = CubicSpline(x, humidities)
 
 if __name__ == "__main__":
-    for i in range(0, 24*14):
-        print(f"Hour {i}: Temp {outdoor_temp_by_hour(i):.2f} C, Humidity {outdoor_humidity_by_hour(i):.2f} %")
+    print( len(temps), len(humidities) )
     #x_smooth = np.linspace(0, 24*14-1, 1000)
 
     #plt.scatter(x, temps, label='temp data', color='red')
