@@ -31,30 +31,31 @@ def celsius_to_kelvin(temp_c):
 def kelvin_to_celsius(temp_k):
     return temp_k - 273.15
 
-def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour):
+def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour, step_seconds, ac_heater_max_power=1000):
     """Calculate the new temperature after applying power for a given time step."""
 
-    ac_heater_max_power = 750  # in Watts
+    #ac_heater_max_power = 1000  # in Watts
 
     specific_heat = specific_heat_by_humidity(humidity)  # J/(kg·K)
     
-    ac_heater_power = ac_heater_control * ac_heater_max_power 
+    ac_heater_power = ac_heater_control/100 * ac_heater_max_power 
 
     sum_power = ac_heater_power
 
     thermal_conductivity = 0.002  # W/(m·K) Concrete
     wall_area = 20 * 3 * 4  # m^2 (4 walls, 3m tall, 20m wide)
     wall_thickness = 0.3 # m
-    temp_difference = temp - outdoor_temp_by_hour(hour)  # in Celsius
+    outdoor_temp = outdoor_temp_by_hour(hour)  # in Celsius
+    temp_difference = temp - outdoor_temp # in Celsius
 
     heat_loss = (thermal_conductivity * wall_area * temp_difference) / wall_thickness  # in Celsius
 
     sum_power -= heat_loss
 
-    # 5 minute step, 60 seconds per minute, time in seconds
-    temp_change = (sum_power * 5 * 60) / (air_mass * specific_heat)  # in Kelvin
+    # 5 second step
+    temp_change = (sum_power * step_seconds) / (air_mass * specific_heat)  # in Kelvin
 
-    return {"temperature": temp + temp_change, "humidity": humidity}
+    return {"temperature": temp + temp_change, "humidity": humidity, "outdoor_temperature": outdoor_temp}
 
 #print(f"Step hours: {step_hours}")
 #for i in range(24*14):
