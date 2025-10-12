@@ -10,7 +10,7 @@
             "extensions": [
                 "ms-python.python",
                 "ms-python.jupyter",
-                "ms-toolsai.jupyter-renderers"
+                "ms-toolsai.jupyter-rendel rers"
             ]
         }
     },

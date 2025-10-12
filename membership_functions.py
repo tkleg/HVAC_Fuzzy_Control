@@ -19,20 +19,31 @@ humidity['dry'] = 1 - fuzz.trapmf(universes['humidity'], [0, 20, mm.HUM_MAX, mm.
 humidity['comfortable'] = fuzz.trapmf(universes['humidity'], [15, 35, 55, 70])
 humidity['humid'] = fuzz.trapmf(universes['humidity'], [45, 70, mm.HUM_MAX, mm.HUM_MAX])
 
+delta_temperature = ctrl.Antecedent(universes['delta_temperature'], 'delta_temp')  # -10 to 10 degrees Celsius change
+delta_temperature['decreasing'] = 1 - fuzz.trapmf(universes['delta_temperature'], [-7,-2, mm.DELTA_TEMP_MAX, mm.DELTA_TEMP_MAX])
+delta_temperature['stable'] = fuzz.trimf(universes['delta_temperature'], [-3, 0, 3])
+delta_temperature['increasing'] = fuzz.trapmf(universes['delta_temperature'], [2, 7, mm.DELTA_TEMP_MAX, mm.DELTA_TEMP_MAX])
+
+delta_humidity = ctrl.Antecedent(universes['delta_humidity'], 'delta_hum')  # -20 to 20% change
+delta_humidity['decreasing'] = 1 - fuzz.trapmf(universes['delta_humidity'], [-15, -5, mm.DELTA_HUM_MAX, mm.DELTA_HUM_MAX])
+delta_humidity['stable'] = fuzz.trimf(universes['delta_humidity'], [-7, 0, 7])
+delta_humidity['increasing'] = fuzz.trapmf(universes['delta_humidity'], [5, 15, mm.DELTA_HUM_MAX, mm.DELTA_HUM_MAX])
+
 ac_heater_power = ctrl.Consequent(universes['ac_heater_power'], 'ac_heater_power')
 ac_heater_power['cooling'] = 1 - fuzz.trapmf(universes['ac_heater_power'], [-50, 0, mm.AC_HEATER_POWER_MAX, mm.AC_HEATER_POWER_MAX])
 ac_heater_power['off'] = fuzz.trimf(universes['ac_heater_power'], [-10, 0, 10])
 ac_heater_power['heating'] = fuzz.trimf(universes['ac_heater_power'], [0, mm.AC_HEATER_POWER_MAX, mm.AC_HEATER_POWER_MAX])
 
 # Weighted cooling (1.5x importance, but clamped to max 1.0)
-ac_heater_power['cooling_temp'] = np.minimum(ac_heater_power['cooling'].mf * 1.5, 1.0)
+#ac_heater_power['cooling_temp'] = np.minimum(ac_heater_power['cooling'].mf * 1.5, 1.0)
 
 # Weighted heating (1.5x importance, but clamped to max 1.0) 
-ac_heater_power['heating_temp'] = np.minimum(ac_heater_power['heating'].mf * 1.5, 1.0)
+#ac_heater_power['heating_temp'] = np.minimum(ac_heater_power['heating'].mf * 1.5, 1.0)
 
 # Weighted off (1.5x importance, but clamped to max 1.0)
-ac_heater_power['off_temp'] = np.minimum(ac_heater_power['off'].mf * 1.5, 1.0)
+#ac_heater_power['off_temp'] = np.minimum(ac_heater_power['off'].mf * 1.5, 1.0)
 
-variables = {'temperature': temperature, 'humidity': humidity, 'ac_heater_power': ac_heater_power}
-units = {'temperature': '°C', 'humidity': '%', 'delta_temp': '°C', 'delta_humidity': '%',
+variables = {'temperature': temperature, 'humidity': humidity, 'ac_heater_power': ac_heater_power,
+             'delta_temperature': delta_temperature, 'delta_humidity': delta_humidity}
+units = {'temperature': '°C', 'humidity': '%', 'delta_temperature': '°C', 'delta_humidity': '%',
          'ac_heater_power': '%'}

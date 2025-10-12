@@ -8,8 +8,8 @@ import mins_maxs as mm
 controller = ctrl.ControlSystem(rules)
 simulator = ctrl.ControlSystemSimulation(controller)
 
-temp = range(mm.TEMP_MIN, mm.TEMP_MAX + 1, 5)
-hum = range(mm.HUM_MIN, mm.HUM_MAX + 1, 5)
+temp = range(mm.TEMP_MIN, mm.TEMP_MAX + 1, 1)
+hum = range(mm.HUM_MIN, mm.HUM_MAX + 1, 1)
 TEMP, HUM = np.meshgrid(temp, hum)
 
 Z = np.zeros_like(TEMP)
