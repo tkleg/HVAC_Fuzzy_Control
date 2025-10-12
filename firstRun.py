@@ -37,6 +37,7 @@ times = [0]
 max_time = int(input("Enter the total number of hours to simulate: "))
 
 max_ac_power = float(input("Enter the maximum AC/Heater power (in W): "))
+wall_heat_loss_factor = float(input("Enter the wall heat loss factor: "))
 while cur_time < max_time:
     # Set inputs
     simulator.input['temperature'] = cur_temp
@@ -49,7 +50,7 @@ while cur_time < max_time:
     # Get the output values
     heating_power = simulator.output['ac_heater_power']
 
-    new_data = calc_new_temp_and_hum(cur_temp, cur_hum, heating_power, cur_time, seconds, max_ac_power)
+    new_data = calc_new_temp_and_hum(cur_temp, cur_hum, heating_power, cur_time, seconds, max_ac_power, wall_heat_loss_factor)
     new_temp = new_data['temperature']
     new_hum = new_data['humidity']
 

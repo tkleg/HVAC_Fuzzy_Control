@@ -10,8 +10,8 @@ from universes import universes
 
 temperature = ctrl.Antecedent(universes['temperature'], 'temperature')  # -50 to 50 degrees Celsius
 temperature['freezing'] = 1 - fuzz.trapmf(universes['temperature'], [-20, 0, mm.TEMP_MAX, mm.TEMP_MAX])
-temperature['cold'] = fuzz.trapmf(universes['temperature'], [-20, 0, 7, 13])
-temperature['warm'] = fuzz.trapmf(universes['temperature'], [10, 13, 22, 30])
+temperature['cold'] = fuzz.trapmf(universes['temperature'], [-15, 5, 12, 18])
+temperature['warm'] = fuzz.trapmf(universes['temperature'], [15, 18, 27, 35])
 temperature['hot'] = fuzz.trapmf(universes['temperature'], [22, 32, mm.TEMP_MAX, mm.TEMP_MAX])
 
 humidity = ctrl.Antecedent(universes['humidity'], 'humidity')      # 0 to 100%
