@@ -22,6 +22,8 @@ for i in range(len(temp)):
         
         simulator.input['temperature'] = x
         simulator.input['humidity'] = y
+        simulator.input['delta_temperature'] = 0
+        simulator.input['delta_humidity'] = 0
         simulator.compute()
         
         Z[j, i] = simulator.output['ac_heater_power']  # Store result at correct position

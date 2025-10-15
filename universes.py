@@ -10,12 +10,12 @@ AC_HEATER_POWER_UNIVERSE = np.linspace(mm.AC_HEATER_POWER_MIN, mm.AC_HEATER_POWE
 
 
 DELTA_TEMP_UNIVERSE = np.linspace(mm.DELTA_TEMP_MIN, mm.DELTA_TEMP_MAX, NUM_POINTS)  # Delta temperature range from -10 to 10 degrees Celsius
-#DELTA_HUM_UNIVERSE = np.linspace(mm.DELTA_HUM_MIN, mm.DELTA_HUM_MAX, NUM_POINTS)  # Delta humidity range from -20 to 20%
+DELTA_HUM_UNIVERSE = np.linspace(mm.DELTA_HUM_MIN, mm.DELTA_HUM_MAX, NUM_POINTS)  # Delta humidity range from -20 to 20%
 
 universes = {
     'temperature': TEMP_UNIVERSE,
     'humidity': HUM_UNIVERSE,
     'ac_heater_power': AC_HEATER_POWER_UNIVERSE,
     'delta_temperature': DELTA_TEMP_UNIVERSE,
-#    'delta_humidity': DELTA_HUM_UNIVERSE
+    'delta_humidity': DELTA_HUM_UNIVERSE
 }
