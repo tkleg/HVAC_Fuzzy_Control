@@ -99,5 +99,4 @@ plt.title('Change in Room Temperature Over Time with Fuzzy Logic Control')
 plt.grid()
 plt.legend()
 plt.savefig('results/delta_temperature_over_time.png')
-
 #print( list( map( float, temps) ) )
