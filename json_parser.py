@@ -20,7 +20,6 @@ def json_to_splines():
             temps.append(hour['temp_c'])
             humidities.append(hour['humidity'])
 
-    #percent_noise = 1 # Percent noise to add
     #Convert to numpy arrays
     #temps = np.array(temps) * np.random.uniform( 1 - percent_noise / 100, 1 + percent_noise / 100, size=len(temps))
     #humidities = np.array(humidities) * np.random.uniform(1 - percent_noise / 100, 1 + percent_noise / 100, size=len(humidities))
@@ -44,4 +43,4 @@ if __name__ == "__main__":
 
     plt.plot(x, outdoor_temp_by_hour(x), label='Cubic Spline Temp')
 
-    plt.savefig('cubic_spline_temp.png')
+    plt.savefig('misc/cubic_spline_temp.png')

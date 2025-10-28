@@ -3,15 +3,9 @@ import matplotlib.pyplot as plt
 from membership_functions import variables, units
 from universes import universes
 
-#Prompt user to enter a directory to save the plots
-output_dir = input("Enter the directory to save the plot. Note that the path starts at the root of the devcontainer: ")
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-    os.makedirs(os.path.join(output_dir, 'membership_functions'))
-else:
-    print(f"Directory {output_dir} already exists. You must enter a path which does not already exist.")
-    exit(1)
-    
+# Ensure the output directory exists
+os.makedirs('membership_functions', exist_ok=True)
+
 for var_name, fuzzySets in variables.items():
 
     for fuzzySetName in fuzzySets:
@@ -27,8 +21,6 @@ for var_name, fuzzySets in variables.items():
     plt.ylabel('Membership')
     plt.grid(True)
     plt.legend(title='Fuzzy Sets')
-    filename = f'{output_dir}/membership_functions/{var_name}_membership.png'
-    if os.path.exists(filename):
-        os.remove(filename)
+    filename = f'membership_functions/{var_name}_membership.png'
     plt.savefig(filename, dpi=300, bbox_inches='tight')
     plt.clf()
