@@ -80,32 +80,32 @@ delta_temp_only_rules = [
 ]
 rules.extend(delta_temp_only_rules)
 
-delta_hum_only_rules = [
-    ctrl.Rule(delta_hum['decreasing'], humidifier_dehumidifier['humidifying']),
-    ctrl.Rule(delta_hum['stable'], humidifier_dehumidifier['off']),
-    ctrl.Rule(delta_hum['increasing'], humidifier_dehumidifier['dehumidifying'])
-]
-rules.extend(delta_hum_only_rules)
+#delta_hum_only_rules = [
+#    ctrl.Rule(delta_hum['decreasing'], humidifier_dehumidifier['humidifying']),
+#    ctrl.Rule(delta_hum['stable'], humidifier_dehumidifier['off']),
+#    ctrl.Rule(delta_hum['increasing'], humidifier_dehumidifier['dehumidifying'])
+#]
+#rules.extend(delta_hum_only_rules)
 
 delta_hum_and_hum_rules = [
     ctrl.Rule(hum['dry'] & delta_hum['decreasing'], ac_heater['heating']),
-    ctrl.Rule(hum['dry'] & delta_hum['stable'], ac_heater['heating']),
+    #ctrl.Rule(hum['dry'] & delta_hum['stable'], ac_heater['heating']),
     ctrl.Rule(hum['dry'] & delta_hum['increasing'], ac_heater['off']),
     ctrl.Rule(hum['comfortable'] & delta_hum['decreasing'], ac_heater['heating']),
-    ctrl.Rule(hum['comfortable'] & delta_hum['stable'], ac_heater['off']),
+    #ctrl.Rule(hum['comfortable'] & delta_hum['stable'], ac_heater['off']),
     ctrl.Rule(hum['comfortable'] & delta_hum['increasing'], ac_heater['cooling']),
     ctrl.Rule(hum['humid'] & delta_hum['decreasing'], ac_heater['off']),
-    ctrl.Rule(hum['humid'] & delta_hum['stable'], ac_heater['cooling']),
+    #ctrl.Rule(hum['humid'] & delta_hum['stable'], ac_heater['cooling']),
     ctrl.Rule(hum['humid'] & delta_hum['increasing'], ac_heater['cooling']),
-    ctrl.Rule(hum['dry'] & delta_hum['decreasing'], humidifier_dehumidifier['humidifying']),
-    ctrl.Rule(hum['dry'] & delta_hum['stable'], humidifier_dehumidifier['off']),
-    ctrl.Rule(hum['dry'] & delta_hum['increasing'], humidifier_dehumidifier['off']),
-    ctrl.Rule(hum['comfortable'] & delta_hum['decreasing'], humidifier_dehumidifier['humidifying']),
-    ctrl.Rule(hum['comfortable'] & delta_hum['stable'], humidifier_dehumidifier['off']),
-    ctrl.Rule(hum['comfortable'] & delta_hum['increasing'], humidifier_dehumidifier['dehumidifying']),
-    ctrl.Rule(hum['humid'] & delta_hum['decreasing'], humidifier_dehumidifier['off']),
-    ctrl.Rule(hum['humid'] & delta_hum['stable'], humidifier_dehumidifier['dehumidifying']),
-    ctrl.Rule(hum['humid'] & delta_hum['increasing'], humidifier_dehumidifier['dehumidifying'])
+    #ctrl.Rule(hum['dry'] & delta_hum['decreasing'], humidifier_dehumidifier['humidifying']),
+    #ctrl.Rule(hum['dry'] & delta_hum['stable'], humidifier_dehumidifier['off']),
+    #ctrl.Rule(hum['dry'] & delta_hum['increasing'], humidifier_dehumidifier['off']),
+    #ctrl.Rule(hum['comfortable'] & delta_hum['decreasing'], humidifier_dehumidifier['humidifying']),
+    #ctrl.Rule(hum['comfortable'] & delta_hum['stable'], humidifier_dehumidifier['off']),
+    #ctrl.Rule(hum['comfortable'] & delta_hum['increasing'], humidifier_dehumidifier['dehumidifying']),
+    #ctrl.Rule(hum['humid'] & delta_hum['decreasing'], humidifier_dehumidifier['off']),
+    #ctrl.Rule(hum['humid'] & delta_hum['stable'], humidifier_dehumidifier['dehumidifying']),
+    #ctrl.Rule(hum['humid'] & delta_hum['increasing'], humidifier_dehumidifier['dehumidifying'])
 ]
 
 rules.extend(delta_hum_and_hum_rules)

@@ -22,7 +22,7 @@ outdoor_temps = [16.3]
 initial_temp = float(input("Enter the initial room temperature (in °C): "))
 initial_hum = float(input("Enter the initial room humidity (in %): "))
 initial_delta_temp = 0  # Initial change in temperature
-initial_delta_hum = 0  # Initial change in humidity
+initial_delta_hum = -5  # Initial change in humidity
 
 cur_temp = initial_temp
 cur_hum = initial_hum
@@ -52,7 +52,7 @@ while cur_time < max_time:
     # Get the output values
     heating_power = simulator.output['ac_heater_power']
     humidifier_power = simulator.output['humidifier_dehumidifier_power']
-    print('heating_power:', heating_power, 'humidifier_power:', humidifier_power)
+
     new_data = calc_new_temp_and_hum(cur_temp, cur_hum, heating_power, humidifier_power, cur_time, seconds, splines, max_ac_power, wall_heat_loss_factor)
     new_temp = new_data['temperature']
     new_hum = new_data['humidity']
