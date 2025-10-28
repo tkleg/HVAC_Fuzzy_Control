@@ -34,6 +34,10 @@ ac_heater_power['cooling'] = 1 - fuzz.trapmf(universes['ac_heater_power'], [-50,
 ac_heater_power['off'] = fuzz.trimf(universes['ac_heater_power'], [-10, 0, 10])
 ac_heater_power['heating'] = fuzz.trimf(universes['ac_heater_power'], [0, mm.AC_HEATER_POWER_MAX, mm.AC_HEATER_POWER_MAX])
 
+humidifier_dehumidifier_power = ctrl.Consequent(universes['humidifier_dehumidifier_power'], 'humidifier_dehumidifier_power')
+humidifier_dehumidifier_power['dehumidifying'] = 1 - fuzz.trapmf(universes['humidifier_dehumidifier_power'], [-50, 0, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX])
+humidifier_dehumidifier_power['off'] = fuzz.trimf(universes['humidifier_dehumidifier_power'], [-10, 0, 10])
+humidifier_dehumidifier_power['humidifying'] = fuzz.trimf(universes['humidifier_dehumidifier_power'], [0, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX])
 # Weighted cooling (1.5x importance, but clamped to max 1.0)
 #ac_heater_power['cooling_temp'] = np.minimum(ac_heater_power['cooling'].mf * 1.5, 1.0)
 
@@ -44,8 +48,10 @@ ac_heater_power['heating'] = fuzz.trimf(universes['ac_heater_power'], [0, mm.AC_
 #ac_heater_power['off_temp'] = np.minimum(ac_heater_power['off'].mf * 1.5, 1.0)
 
 variables = {'temperature': temperature, 'humidity': humidity, 'ac_heater_power': ac_heater_power,
+             'humidifier_dehumidifier_power': humidifier_dehumidifier_power,
              'delta_temperature': delta_temperature, 
              'delta_humidity': delta_humidity
             }
+
 units = {'temperature': '°C', 'humidity': '%', 'delta_temperature': '°C', 'delta_humidity': '%',
-         'ac_heater_power': '%'}
+         'ac_heater_power': '%', 'humidifier_dehumidifier_power': '%'}

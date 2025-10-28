@@ -20,7 +20,7 @@ for var_name, fuzzySets in variables.items():
     var_title = var_name.replace('_', ' ').title()
     if var_title.startswith('Ac'):
         var_title = var_title.replace('Ac ', 'AC/')
-        
+    print(f"Saving plot for {var_title} membership functions...")
     plt.title(var_title + ' Membership Functions', fontweight='bold')
     plt.xlabel(var_title + ' (' + units[var_name] + ')')
     plt.ylabel('Membership')

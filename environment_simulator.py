@@ -27,7 +27,7 @@ def celsius_to_kelvin(temp_c):
 def kelvin_to_celsius(temp_k):
     return temp_k - 273.15
 
-def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour, step_seconds, splines, ac_heater_max_power=1000, wall_heat_loss_factor=1):
+def calc_new_temp_and_hum(temp, humidity, ac_heater_control, humidifier_control, hour, step_seconds, splines, ac_heater_max_power=1000, humidifier_max_change=2, wall_heat_loss_factor=1):
 
     #ac_heater_max_power = 1000  # in Watts
 
@@ -50,8 +50,8 @@ def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour, step_seconds,
     # 5 second step
     temp_change = (sum_power * step_seconds) / (air_mass * specific_heat)  # in Kelvin
 
-    humidity_change = humidity
-    return {"temperature": temp + temp_change, "humidity": humidity, "outdoor_temperature": outdoor_temp}
+    humidity_change =  humidifier_control / 100 * humidifier_max_change  * step_seconds
+    return {"temperature": temp + temp_change, "humidity": humidity + humidity_change, "outdoor_temperature": outdoor_temp}
 
 #print(f"Step hours: {step_hours}")
 #for i in range(24*14):

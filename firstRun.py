@@ -46,15 +46,14 @@ while cur_time < max_time:
     simulator.input['humidity'] = cur_hum
     simulator.input['delta_temperature'] = cur_delta_temp
     simulator.input['delta_humidity'] = cur_delta_hum
-
     # Compute the control action
     simulator.compute()
 
     # Get the output values
     heating_power = simulator.output['ac_heater_power']
-    #humidifier_power = simulator.output['humidifier_power']
+    humidifier_power = simulator.output['humidifier_dehumidifier_power']
 
-    new_data = calc_new_temp_and_hum(cur_temp, cur_hum, heating_power, cur_time, seconds, splines, max_ac_power, wall_heat_loss_factor)
+    new_data = calc_new_temp_and_hum(cur_temp, cur_hum, heating_power, humidifier_power, cur_time, seconds, splines, max_ac_power, wall_heat_loss_factor)
     new_temp = new_data['temperature']
     new_hum = new_data['humidity']
 
@@ -79,7 +78,16 @@ plt.ylabel('Temperature (°C)')
 plt.title('Room Temperature Over Time with Fuzzy Logic Control')
 plt.grid()
 plt.legend()
-plt.savefig('temperature_over_time.png')
+plt.savefig('results/temperature_over_time.png')
+plt.clf()
+
+plt.plot(times, hums, label='Humidity over Time', lw = 1)
+plt.xlabel('Time (hours)')
+plt.ylabel('Humidity (%)')
+plt.title('Room Humidity Over Time with Fuzzy Logic Control')
+plt.grid()
+plt.legend()
+plt.savefig('results/humidity_over_time.png')
 plt.clf()
 
 times.pop(0)
@@ -90,6 +98,6 @@ plt.ylabel('Delta Temperature (°C)')
 plt.title('Change in Room Temperature Over Time with Fuzzy Logic Control')
 plt.grid()
 plt.legend()
-plt.savefig('delta_temperature_over_time.png')
+plt.savefig('results/delta_temperature_over_time.png')
 
 #print( list( map( float, temps) ) )
