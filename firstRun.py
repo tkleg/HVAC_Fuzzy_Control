@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from fuzzy_rules import rules
 from environment_simulator import calc_new_temp_and_hum
 from json_parser import json_to_splines
+from random import uniform
 
 splines = json_to_splines()
 
@@ -19,20 +20,20 @@ cur_time = start
 
 outdoor_temps = [16.3]
 
-initial_temp = float(input("Enter the initial room temperature (in °C): "))
-initial_hum = float(input("Enter the initial room humidity (in %): "))
+initial_temp = splines['temperature'](0) * uniform(0.9, 1.1)  # %10 variation in initial temperature
+initial_hum = splines['humidity'](0) * uniform(0.9, 1.1)  # %10 variation in initial humidity
 initial_delta_temp = 0  # Initial change in temperature
-initial_delta_hum = -5  # Initial change in humidity
+#initial_delta_hum = -5  # Initial change in humidity
 
 cur_temp = initial_temp
 cur_hum = initial_hum
 cur_delta_temp = initial_delta_temp
-cur_delta_hum = initial_delta_hum
+#cur_delta_hum = initial_delta_hum
 
 temps = [initial_temp]
 hums = [initial_hum]
 delta_temps = [initial_delta_temp]
-delta_hums = [initial_delta_hum]
+#delta_hums = [initial_delta_hum]
 times = [0]
 #336 hours = 14 days
 
@@ -45,8 +46,9 @@ while cur_time < max_time:
     simulator.input['temperature'] = cur_temp
     simulator.input['humidity'] = cur_hum
     simulator.input['delta_temperature'] = cur_delta_temp
-    simulator.input['delta_humidity'] = cur_delta_hum
+    #simulator.input['delta_humidity'] = cur_delta_hum
     # Compute the control action
+    print(f"Computing for Time: {cur_time:.6f} hrs, Temp: {cur_temp:.6f} C, Humidity: {cur_hum:.6f} %, Delta Temp: {cur_delta_temp:.6f} C")
     simulator.compute()
 
     # Get the output values
@@ -66,7 +68,7 @@ while cur_time < max_time:
     outdoor_temps.append(new_data['outdoor_temperature'])
 
     cur_delta_temp = new_temp - cur_temp
-    cur_delta_hum = new_hum - cur_hum
+    #cur_delta_hum = new_hum - cur_hum
 
     cur_temp = new_temp
     cur_hum = new_hum
@@ -85,6 +87,7 @@ plt.savefig('results/temperature_over_time.png')
 plt.clf()
 
 plt.plot(times, hums, label='Humidity over Time', lw = 1)
+plt.plot(times, [splines['humidity'](t) for t in times], label='Outdoor Humidity over Time', lw = 1)
 plt.xlabel('Time (hours)')
 plt.ylabel('Humidity (%)')
 plt.title('Room Humidity Over Time with Fuzzy Logic Control')
