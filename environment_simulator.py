@@ -1,4 +1,3 @@
-from json_parser import outdoor_temp_by_hour
 from math import exp
 
 # Square floor 20 meters, 3 meters tall
@@ -9,15 +8,12 @@ air_density = 1.225 # kg/m^3 at sea level
 air_mass = room_volume * air_density
 
 def calc_satured_vapor_pressure(temp_c):
-    """Calculate the saturated vapor pressure of water at a given temperature in Celsius."""
     if temp_c >= 0:
         return 6.112 * exp((17.67 * temp_c) / (temp_c + 243.5))  # in hPa
     else:
         return 6.112 * exp((22.46 * temp_c) / (temp_c + 272.62))  # in hPa
     
 def specific_heat_by_humidity(humidity):
-    """Calculate the specific heat of air at a given humidity (%) and temperature (Celsius)."""
-
     cp_dry_air = 1005  # J/(kg·K)
     cp_water_vapor = 1860  # J/(kg·K)
     
@@ -31,8 +27,7 @@ def celsius_to_kelvin(temp_c):
 def kelvin_to_celsius(temp_k):
     return temp_k - 273.15
 
-def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour, step_seconds, ac_heater_max_power=1000, wall_heat_loss_factor=1):
-    """Calculate the new temperature after applying power for a given time step."""
+def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour, step_seconds, splines, ac_heater_max_power=1000, wall_heat_loss_factor=1):
 
     #ac_heater_max_power = 1000  # in Watts
 
@@ -45,7 +40,7 @@ def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour, step_seconds,
     thermal_conductivity = 0.002  # W/(m·K) Concrete
     wall_area = 20 * 3 * 4  # m^2 (4 walls, 3m tall, 20m wide)
     wall_thickness = 0.3 # m
-    outdoor_temp = outdoor_temp_by_hour(hour)  # in Celsius
+    outdoor_temp = splines["temperature"](hour)  # in Celsius
     temp_difference = temp - outdoor_temp # in Celsius
 
     heat_loss = wall_heat_loss_factor * (thermal_conductivity * wall_area * temp_difference) / wall_thickness  # in Celsius
@@ -55,6 +50,7 @@ def calc_new_temp_and_hum(temp, humidity, ac_heater_control, hour, step_seconds,
     # 5 second step
     temp_change = (sum_power * step_seconds) / (air_mass * specific_heat)  # in Kelvin
 
+    humidity_change = humidity
     return {"temperature": temp + temp_change, "humidity": humidity, "outdoor_temperature": outdoor_temp}
 
 #print(f"Step hours: {step_hours}")
