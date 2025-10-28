@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 from fuzzy_rules import rules
 from environment_simulator import calc_new_temp_and_hum
 from json_parser import json_to_splines
-from random import uniform
+import random
+import numpy as np
 
 splines = json_to_splines()
 
@@ -20,8 +21,8 @@ cur_time = start
 
 outdoor_temps = [16.3]
 
-initial_temp = splines['temperature'](0) * uniform(0.9, 1.1)  # %10 variation in initial temperature
-initial_hum = splines['humidity'](0) * uniform(0.9, 1.1)  # %10 variation in initial humidity
+initial_temp = -20 + splines['temperature'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial temperature
+initial_hum = 15 + splines['humidity'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial humidity
 initial_delta_temp = 0  # Initial change in temperature
 #initial_delta_hum = -5  # Initial change in humidity
 
@@ -96,9 +97,9 @@ plt.legend()
 plt.savefig('results/humidity_over_time.png')
 plt.clf()
 
-times.pop(0)
-delta_temps.pop(0)
-plt.plot(times, delta_temps, label='Delta Temperature over Time', lw = 1)
+
+plt.plot(times[2:], delta_temps[2:], label='Delta Temperature over Time', lw = 1)
+plt.plot(times, np.array(temps) - np.array(outdoor_temps), label='Temperature Difference (Indoor - Outdoor)', lw = 1)
 plt.xlabel('Time (hours)')
 plt.ylabel('Delta Temperature (°C)')
 plt.title('Change in Room Temperature Over Time with Fuzzy Logic Control')
@@ -106,3 +107,4 @@ plt.grid()
 plt.legend()
 plt.savefig('results/delta_temperature_over_time.png')
 #print( list( map( float, temps) ) )
+print(delta_temps)

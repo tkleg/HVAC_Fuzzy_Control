@@ -15,9 +15,9 @@ temperature['warm'] = fuzz.trapmf(universes['temperature'], [15, 18, 27, 35])
 temperature['hot'] = fuzz.trapmf(universes['temperature'], [22, 32, mm.TEMP_MAX, mm.TEMP_MAX])
 
 humidity = ctrl.Antecedent(universes['humidity'], 'humidity')      # 0 to 100%
-humidity['dry'] = 1 - fuzz.trapmf(universes['humidity'], [0, 20, mm.HUM_MAX, mm.HUM_MAX])
-humidity['comfortable'] = fuzz.trapmf(universes['humidity'], [15, 35, 55, 70])
-humidity['humid'] = fuzz.trapmf(universes['humidity'], [45, 70, mm.HUM_MAX, mm.HUM_MAX])
+humidity['dry'] = 1 - fuzz.trapmf(universes['humidity'], [0, 40, mm.HUM_MAX, mm.HUM_MAX])
+humidity['comfortable'] = fuzz.trapmf(universes['humidity'], [30, 50, 70, 90])
+humidity['humid'] = fuzz.trapmf(universes['humidity'], [60, 90, mm.HUM_MAX, mm.HUM_MAX])
 
 delta_temperature = ctrl.Antecedent(universes['delta_temperature'], 'delta_temperature')  # -10 to 10 degrees Celsius change
 delta_temperature['decreasing'] = 1 - fuzz.trapmf(universes['delta_temperature'], [-7,-2, mm.DELTA_TEMP_MAX, mm.DELTA_TEMP_MAX])

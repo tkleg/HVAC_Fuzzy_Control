@@ -1,5 +1,5 @@
 from math import exp
-
+import random
 # Square floor 20 meters, 3 meters tall
 room_volume = 20 * 20 * 3 # in cubic meters
 
@@ -55,8 +55,10 @@ def calc_new_temp_and_hum(temp, humidity, ac_heater_control, humidifier_control,
     humidity_change = (humidifier_control / 100) * humidifier_max_change * step_hours
     humidity_change += (humidity - splines["humidity"](hour)) * 0.01 * step_hours
     print('humidity', humidity, 'humidifier_control', humidifier_control, 'humidity_change', humidity_change, 'step_seconds', step_seconds, 'humidifier_max_change', humidifier_max_change)
-    return {"temperature": temp + temp_change, "humidity": humidity + humidity_change, "outdoor_temperature": outdoor_temp}
-
+    env_outputs = {"temperature": temp + temp_change, "humidity": humidity + humidity_change, "outdoor_temperature": outdoor_temp}
+    for key in env_outputs:
+       env_outputs[key] *= random.uniform(0.9995, 1.0005)  # Add some noise
+    return env_outputs
 #print(f"Step hours: {step_hours}")
 #for i in range(24*14):
 #    env_temp = temp_by_hour(i * step_hours)
