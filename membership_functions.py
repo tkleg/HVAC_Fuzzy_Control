@@ -25,9 +25,9 @@ delta_temperature['stable'] = fuzz.trimf(universes['delta_temperature'], [-3, 0,
 delta_temperature['increasing'] = fuzz.trapmf(universes['delta_temperature'], [2, 7, mm.DELTA_TEMP_MAX, mm.DELTA_TEMP_MAX])
 
 delta_humidity = ctrl.Antecedent(universes['delta_humidity'], 'delta_humidity')  # -20 to 20% change
-delta_humidity['decreasing'] = 1 - fuzz.trapmf(universes['delta_humidity'], [-15, -5, mm.DELTA_HUM_MAX, mm.DELTA_HUM_MAX])
-delta_humidity['stable'] = fuzz.trimf(universes['delta_humidity'], [-7, 0, 7])
-delta_humidity['increasing'] = fuzz.trapmf(universes['delta_humidity'], [5, 15, mm.DELTA_HUM_MAX, mm.DELTA_HUM_MAX])
+delta_humidity['decreasing'] = 1 - fuzz.trapmf(universes['delta_humidity'], [-15, -2, mm.DELTA_HUM_MAX, mm.DELTA_HUM_MAX])
+delta_humidity['stable'] = fuzz.trimf(universes['delta_humidity'], [-1, 0, 1])  # Much narrower stable zone
+delta_humidity['increasing'] = fuzz.trapmf(universes['delta_humidity'], [2, 15, mm.DELTA_HUM_MAX, mm.DELTA_HUM_MAX])
 
 ac_heater_power = ctrl.Consequent(universes['ac_heater_power'], 'ac_heater_power')
 ac_heater_power['cooling'] = 1 - fuzz.trapmf(universes['ac_heater_power'], [-50, 0, mm.AC_HEATER_POWER_MAX, mm.AC_HEATER_POWER_MAX])

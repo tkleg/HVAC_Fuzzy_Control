@@ -52,12 +52,13 @@ while cur_time < max_time:
     # Get the output values
     heating_power = simulator.output['ac_heater_power']
     humidifier_power = simulator.output['humidifier_dehumidifier_power']
-
+    print('heating_power:', heating_power, 'humidifier_power:', humidifier_power)
     new_data = calc_new_temp_and_hum(cur_temp, cur_hum, heating_power, humidifier_power, cur_time, seconds, splines, max_ac_power, wall_heat_loss_factor)
     new_temp = new_data['temperature']
     new_hum = new_data['humidity']
 
     print(f"Time: {cur_time:.6f} hrs, Temp: {cur_temp:.6f} C, Humidity: {cur_hum:.6f} %, Delta Temp: {cur_delta_temp:.6f} C, Heating Power: {heating_power:.6f} % -> New Temp: {new_temp:.6f} C, New Humidity: {new_hum:.6f} %, Outdoor Temp: {new_data['outdoor_temperature']:.6f} C")
+
     # Store the results
     temps.append(cur_temp)
     hums.append(cur_hum)
@@ -65,6 +66,8 @@ while cur_time < max_time:
     outdoor_temps.append(new_data['outdoor_temperature'])
 
     cur_delta_temp = new_temp - cur_temp
+    cur_delta_hum = new_hum - cur_hum
+
     cur_temp = new_temp
     cur_hum = new_hum
     cur_time += step

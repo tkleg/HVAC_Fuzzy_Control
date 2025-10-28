@@ -32,9 +32,12 @@ temp_only_rules = [
 humidity_only_rules = [
     ctrl.Rule(hum['dry'], ac_heater['heating']),
     ctrl.Rule(hum['comfortable'], ac_heater['off']),
-    ctrl.Rule(hum['humid'], ac_heater['cooling'])
+    ctrl.Rule(hum['humid'], ac_heater['cooling']),
+    ctrl.Rule(hum['dry'], humidifier_dehumidifier['humidifying']),
+    ctrl.Rule(hum['comfortable'], humidifier_dehumidifier['off']),
+    ctrl.Rule(hum['humid'], humidifier_dehumidifier['dehumidifying'])
 ]
-#rules.extend(humidity_only_rules)
+rules.extend(humidity_only_rules)
 
 #Combined temperature and humidity rules
 temp_and_hum_rules = [
