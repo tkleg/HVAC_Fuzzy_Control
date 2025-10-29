@@ -26,6 +26,13 @@ ac_delta_temp_rules = [
 ]
 rules.extend(ac_delta_temp_rules)
 
+ac_temp_and_delta_temp_rules = [
+    ctrl.Rule(temp['cold'] & delta_temp['increasing'], ac_heater['off']),
+    ctrl.Rule(temp['warm'] & delta_temp['decreasing'], ac_heater['heating']),
+    ctrl.Rule(temp['warm'] & delta_temp['increasing'], ac_heater['cooling']),
+    ctrl.Rule(temp['hot'] & delta_temp['decreasing'], ac_heater['off'])
+]
+rules.extend(ac_temp_and_delta_temp_rules)
 
 humidifier_humidity_rules = [
     ctrl.Rule(hum['dry'], humidifier_dehumidifier['humidifying']),

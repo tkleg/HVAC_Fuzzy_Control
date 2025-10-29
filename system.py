@@ -12,8 +12,9 @@ controller = ctrl.ControlSystem(rules)
 simulator = ctrl.ControlSystemSimulation(controller)
 
 seconds = int(input("Enter the number of seconds for each step: "))
-#15 second step
-step = seconds / 60 / 60
+
+#step is in hours
+step = seconds / 3600
 
 start = 0 
 
@@ -56,7 +57,11 @@ while cur_time < max_time:
     simulator.compute()
 
     # Get the output values
-    heating_power = simulator.output['ac_heater_power']
+    try:
+        heating_power = simulator.output['ac_heater_power']
+    except KeyError:
+        print('inputs:', simulator.input)
+        exit(1)
     humidifier_power = simulator.output['humidifier_dehumidifier_power']
 
     new_data = calc_new_temp_and_hum(cur_temp, cur_hum, heating_power, humidifier_power, cur_time, seconds, splines, max_ac_power, wall_heat_loss_factor)
@@ -89,6 +94,7 @@ plt.ylabel('Temperature (°C)')
 plt.title('Room Temperature Over Time with Fuzzy Logic Control')
 plt.grid()
 plt.legend()
+plt.tight_layout()
 plt.savefig('results/temperature_over_time.png')
 plt.clf()
 
@@ -99,6 +105,7 @@ plt.ylabel('Humidity (%)')
 plt.title('Room Humidity Over Time with Fuzzy Logic Control')
 plt.grid()
 plt.legend()
+plt.tight_layout()
 plt.savefig('results/humidity_over_time.png')
 plt.clf()
 
@@ -110,6 +117,7 @@ plt.ylabel('Delta Temperature (°C)')
 plt.title('Change in Room Temperature Over Time with Fuzzy Logic Control')
 plt.grid()
 plt.legend()
+plt.tight_layout()
 plt.savefig('results/delta_temperature_over_time.png')
 plt.clf()
 
@@ -119,6 +127,7 @@ plt.ylabel('AC/Heater Control (%)')
 plt.title('AC/Heater Control Signal Over Time')
 plt.grid()
 plt.legend()
+plt.tight_layout()
 plt.savefig('results/ac_heater_control_over_time.png')
 plt.clf()
 
@@ -128,17 +137,48 @@ plt.ylabel('Humidifier/Dehumidifier Control (%)')
 plt.title('Humidifier/Dehumidifier Control Signal Over Time')
 plt.grid()
 plt.legend()
+plt.tight_layout()
 plt.savefig('results/humidifier_dehumidifier_control_over_time.png')
 plt.clf()
 
-time_to_begin = float(input("Enter the time in hours of when the delta temperature graph should begin: "))
-keeper_help = np.array(times[2:]) >= time_to_begin
-delta_temps_shifted = np.array(delta_temps)[2:][keeper_help]
-times_shifted = np.array(times)[2:][keeper_help]
-plt.plot(times_shifted, delta_temps_shifted, label='Delta Temperature over Time', lw = 1)
+time_to_begin_delta_temp = float(input("Enter the time in hours of when the delta temperature graph should begin: "))
+shift_help = np.array(times[2:]) >= time_to_begin_delta_temp
+delta_temps_shifted = np.array(delta_temps)[2:][shift_help]
+times_delta_temp_shifted = np.array(times)[2:][shift_help]
+plt.plot(times_delta_temp_shifted, delta_temps_shifted, label='Delta Temperature over Time', lw = 1)
 plt.xlabel('Time (hours)')
 plt.ylabel('Delta Temperature (°C)')
 plt.title('Change in Room Temperature Over Time with Fuzzy Logic Control (Shifted)')
 plt.grid()
 plt.legend()
-plt.savefig('results/delta_temperature_over_time_shifted.png')
+plt.tight_layout()
+plt.savefig('results/shifted/delta_temperature_over_time_shifted.png')
+plt.clf()
+
+time_to_begin_ac_control = float(input("Enter the time in hours of when the AC/Heater control graph should begin: "))
+shift_help_ac = np.array(times[1:]) >= time_to_begin_ac_control
+ac_control_data_shifted = np.array(ac_control_data)[shift_help_ac]
+times_ac_control_shifted = np.array(times)[1:][shift_help_ac]
+plt.plot(times_ac_control_shifted, ac_control_data_shifted, label='AC/Heater Control Signal', lw = 1)
+plt.xlabel('Time (hours)')
+plt.ylabel('AC/Heater Control (%)')
+plt.title('AC/Heater Control Signal Over Time (Shifted)')
+plt.grid()
+plt.legend()
+plt.tight_layout()
+plt.savefig('results/shifted/ac_heater_control_over_time_shifted.png')
+plt.clf()
+
+time_to_begin_hum_control = float(input("Enter the time in hours of when the Humidifier/Dehumidifier control graph should begin: "))
+shift_help_hum = np.array(times[1:]) >= time_to_begin_hum_control
+hum_control_data_shifted = np.array(hum_control_data)[shift_help_hum]
+times_hum_control_shifted = np.array(times)[1:][shift_help_hum]
+plt.plot(times_hum_control_shifted, hum_control_data_shifted, label='Humidifier/Dehumidifier Control Signal', lw = 1)
+plt.xlabel('Time (hours)')
+plt.ylabel('Humidifier/Dehumidifier Control (%)')
+plt.title('Humidifier/Dehumidifier Control Signal Over Time (Shifted)')
+plt.grid()
+plt.legend()
+plt.tight_layout()
+plt.savefig('results/shifted/humidifier_dehumidifier_control_over_time_shifted.png')
+plt.clf()
