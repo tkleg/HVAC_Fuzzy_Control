@@ -21,8 +21,8 @@ cur_time = start
 
 outdoor_temps = [16.3]
 
-initial_temp = -20 + splines['temperature'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial temperature
-initial_hum = 15 + splines['humidity'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial humidity
+initial_temp = -5 + splines['temperature'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial temperature
+initial_hum = 5 + splines['humidity'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial humidity
 initial_delta_temp = 0  # Initial change in temperature
 #initial_delta_hum = -5  # Initial change in humidity
 
@@ -37,6 +37,9 @@ delta_temps = [initial_delta_temp]
 #delta_hums = [initial_delta_hum]
 times = [0]
 #336 hours = 14 days
+
+ac_control_data = []
+hum_control_data = []
 
 max_time = int(input("Enter the total number of hours to simulate: "))
 
@@ -57,16 +60,18 @@ while cur_time < max_time:
     humidifier_power = simulator.output['humidifier_dehumidifier_power']
 
     new_data = calc_new_temp_and_hum(cur_temp, cur_hum, heating_power, humidifier_power, cur_time, seconds, splines, max_ac_power, wall_heat_loss_factor)
-    new_temp = new_data['temperature']
-    new_hum = new_data['humidity']
+    new_temp = new_data["outputs"]['temperature']
+    new_hum = new_data["outputs"]['humidity']
+    ac_control_data.append(new_data['ac_heater_control'])
+    hum_control_data.append(new_data['humidifier_control'])
 
-    print(f"Time: {cur_time:.6f} hrs, Temp: {cur_temp:.6f} C, Humidity: {cur_hum:.6f} %, Delta Temp: {cur_delta_temp:.6f} C, Heating Power: {heating_power:.6f} % -> New Temp: {new_temp:.6f} C, New Humidity: {new_hum:.6f} %, Outdoor Temp: {new_data['outdoor_temperature']:.6f} C")
+    print(f"Time: {cur_time:.6f} hrs, Temp: {cur_temp:.6f} C, Humidity: {cur_hum:.6f} %, Delta Temp: {cur_delta_temp:.6f} C, Heating Power: {heating_power:.6f} % -> New Temp: {new_temp:.6f} C, New Humidity: {new_hum:.6f} %, Outdoor Temp: {splines['temperature'](cur_time):.6f} C")
 
     # Store the results
     temps.append(cur_temp)
     hums.append(cur_hum)
     delta_temps.append(cur_delta_temp)
-    outdoor_temps.append(new_data['outdoor_temperature'])
+    outdoor_temps.append(splines['temperature'](cur_time))
 
     cur_delta_temp = new_temp - cur_temp
     #cur_delta_hum = new_hum - cur_hum
@@ -99,12 +104,41 @@ plt.clf()
 
 
 plt.plot(times[2:], delta_temps[2:], label='Delta Temperature over Time', lw = 1)
-plt.plot(times, np.array(temps) - np.array(outdoor_temps), label='Temperature Difference (Indoor - Outdoor)', lw = 1)
+#plt.plot(times, np.array(temps) - np.array(outdoor_temps), label='Temperature Difference (Indoor - Outdoor)', lw = 1)
 plt.xlabel('Time (hours)')
 plt.ylabel('Delta Temperature (°C)')
 plt.title('Change in Room Temperature Over Time with Fuzzy Logic Control')
 plt.grid()
 plt.legend()
 plt.savefig('results/delta_temperature_over_time.png')
-#print( list( map( float, temps) ) )
-print(delta_temps)
+plt.clf()
+
+plt.plot(times[1:], ac_control_data, label='AC/Heater Control Signal', lw = 1)
+plt.xlabel('Time (hours)')
+plt.ylabel('AC/Heater Control (%)')
+plt.title('AC/Heater Control Signal Over Time')
+plt.grid()
+plt.legend()
+plt.savefig('results/ac_heater_control_over_time.png')
+plt.clf()
+
+plt.plot(times[1:], hum_control_data, label='Humidifier/Dehumidifier Control Signal', lw = 1)
+plt.xlabel('Time (hours)')
+plt.ylabel('Humidifier/Dehumidifier Control (%)')
+plt.title('Humidifier/Dehumidifier Control Signal Over Time')
+plt.grid()
+plt.legend()
+plt.savefig('results/humidifier_dehumidifier_control_over_time.png')
+plt.clf()
+
+time_to_begin = float(input("Enter the time in hours of when the delta temperature graph should begin: "))
+keeper_help = np.array(times[2:]) >= time_to_begin
+delta_temps_shifted = np.array(delta_temps)[2:][keeper_help]
+times_shifted = np.array(times)[2:][keeper_help]
+plt.plot(times_shifted, delta_temps_shifted, label='Delta Temperature over Time', lw = 1)
+plt.xlabel('Time (hours)')
+plt.ylabel('Delta Temperature (°C)')
+plt.title('Change in Room Temperature Over Time with Fuzzy Logic Control (Shifted)')
+plt.grid()
+plt.legend()
+plt.savefig('results/delta_temperature_over_time_shifted.png')

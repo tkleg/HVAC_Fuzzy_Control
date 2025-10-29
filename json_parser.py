@@ -19,11 +19,7 @@ def json_to_splines():
         for hour in day['hour']:
             temps.append(hour['temp_c'])
             humidities.append(hour['humidity'])
-
-    #Convert to numpy arrays
-    #temps = np.array(temps) * np.random.uniform( 1 - percent_noise / 100, 1 + percent_noise / 100, size=len(temps))
-    #humidities = np.array(humidities) * np.random.uniform(1 - percent_noise / 100, 1 + percent_noise / 100, size=len(humidities))
-
+            
     #Cubic Spline Interpolation
     x = np.arange(0, 24*14, 1)
     return { "temperature": CubicSpline(x, temps), "humidity": CubicSpline(x, humidities) }
