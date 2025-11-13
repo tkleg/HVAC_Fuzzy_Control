@@ -22,8 +22,10 @@ cur_time = start
 
 outdoor_temps = [16.3]
 
-initial_temp = -5 + splines['temperature'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial temperature
-initial_hum = 5 + splines['humidity'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial humidity
+#initial_temp = -5 + splines['temperature'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial temperature
+initial_temp = 17.5
+initial_hum = 50.0
+#initial_hum = 5 + splines['humidity'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial humidity
 initial_delta_temp = 0  # Initial change in temperature
 #initial_delta_hum = -5  # Initial change in humidity
 

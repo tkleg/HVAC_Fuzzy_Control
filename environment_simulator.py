@@ -10,8 +10,8 @@ def specific_heat_by_humidity(humidity):
 
 def calc_new_temp_and_hum(temp, humidity, ac_heater_control, humidifier_control, hour, step_seconds, splines, ac_heater_max_power=1000, wall_heat_loss_factor=1):
 
-    # Square floor 10 meters, 3 meters tall
-    room_volume = 10 * 10 * 3 # in cubic meters
+    # Square floor 8 meters, 3 meters tall
+    room_volume = 8 * 8 * 3 # in cubic meters
 
     air_density = 1.225 # kg/m^3 at sea level
 
@@ -26,8 +26,8 @@ def calc_new_temp_and_hum(temp, humidity, ac_heater_control, humidifier_control,
 
     sum_power = ac_heater_power
 
-    thermal_conductivity = 0.002  # W/(m·K) Concrete
-    wall_area = 10 * 3 * 4  # m^2 (4 walls, 3m tall, 10m wide)
+    thermal_conductivity = 0.03  # W/(m·K) Concrete
+    wall_area = 8 * 3 * 4  # m^2 (4 walls, 3m tall, 8m wide)
     wall_thickness = 0.2 # m
     outdoor_temp = splines["temperature"](hour)  # in Celsius
     temp_difference = temp - outdoor_temp # in Celsius
