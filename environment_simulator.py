@@ -41,7 +41,7 @@ def calc_new_temp_and_hum(temp, humidity, ac_heater_control, humidifier_control,
     # Fix: Proper humidity calculation (convert step_seconds to hours)
     step_hours = step_seconds / 3600  # Convert seconds to hours
     humidity_change = (humidifier_control / 100) * humidifier_max_change * step_hours
-    humidity_change += (humidity - splines["humidity"](hour)) * 0.01 * step_hours
+    humidity_change += (humidity - splines["humidity"](hour)) * 0.1 * step_hours
     #print('humidity', humidity, 'humidifier_control', humidifier_control, 'humidity_change', humidity_change, 'step_seconds', step_seconds, 'humidifier_max_change', humidifier_max_change)
     env_outputs = {"temperature": temp + temp_change, "humidity": humidity + humidity_change, "outdoor_temperature": outdoor_temp}
     percent_noise = 0.05 / 100  # 0.05% noise
