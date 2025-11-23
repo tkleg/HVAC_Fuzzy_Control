@@ -23,11 +23,11 @@ cur_time = start
 outdoor_temps = [16.3]
 
 #initial_temp = -5 + splines['temperature'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial temperature
-initial_temp = 17.5
+initial_temp = 10
 initial_hum = 50.0
 #initial_hum = 5 + splines['humidity'](0) * random.uniform(0.9, 1.1)  # %10 variation in initial humidity
 initial_delta_temp = 0  # Initial change in temperature
-#initial_delta_hum = -5  # Initial change in humidity
+#initial_delta_hum = 0  # Initial change in humidity
 
 cur_temp = initial_temp
 cur_hum = initial_hum
@@ -78,6 +78,7 @@ while cur_time < max_time:
     temps.append(cur_temp)
     hums.append(cur_hum)
     delta_temps.append(cur_delta_temp)
+    #delta_hums.append(cur_delta_hum)
     outdoor_temps.append(splines['temperature'](cur_time))
 
     cur_delta_temp = new_temp - cur_temp
@@ -122,6 +123,16 @@ plt.legend()
 plt.tight_layout()
 plt.savefig('results/delta_temperature_over_time.png')
 plt.clf()
+
+#plt.plot(times, delta_hums, label='Delta Humidity over Time', lw = 1)
+#plt.xlabel('Time (hours)')
+#plt.ylabel('Delta Humidity (%)')
+#plt.title('Change in Room Humidity Over Time with Fuzzy Logic Control')
+#plt.grid()
+#plt.legend()
+#plt.tight_layout()
+#plt.savefig('results/delta_humidity_over_time.png')
+#plt.clf()
 
 plt.plot(times[1:], ac_control_data, label='AC/Heater Control Signal', lw = 1)
 plt.xlabel('Time (hours)')
