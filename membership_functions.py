@@ -35,9 +35,9 @@ ac_heater_power['off'] = fuzz.trimf(universes['ac_heater_power'], [-10, 0, 10])
 ac_heater_power['heating'] = fuzz.trapmf(universes['ac_heater_power'], [0, 25, mm.AC_HEATER_POWER_MAX, mm.AC_HEATER_POWER_MAX])
 
 humidifier_dehumidifier_power = ctrl.Consequent(universes['humidifier_dehumidifier_power'], 'humidifier_dehumidifier_power')
-humidifier_dehumidifier_power['dehumidifying'] = 1 - fuzz.trapmf(universes['humidifier_dehumidifier_power'], [-60, -20, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX])
-humidifier_dehumidifier_power['off'] = fuzz.trimf(universes['humidifier_dehumidifier_power'], [-25, 0, 25])
-humidifier_dehumidifier_power['humidifying'] = fuzz.trimf(universes['humidifier_dehumidifier_power'], [20, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX])
+humidifier_dehumidifier_power['dehumidifying'] = fuzz.trapmf(universes['humidifier_dehumidifier_power'], [mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX, -10, 0])
+humidifier_dehumidifier_power['off'] = fuzz.trimf(universes['humidifier_dehumidifier_power'], [-10, 0, 10])
+humidifier_dehumidifier_power['humidifying'] = fuzz.trapmf(universes['humidifier_dehumidifier_power'], [0, 10, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX, mm.HUMIDIFIER_DEHUMIDIFIER_POWER_MAX])
 # Weighted cooling (1.5x importance, but clamped to max 1.0)
 #ac_heater_power['cooling_temp'] = np.minimum(ac_heater_power['cooling'].mf * 1.5, 1.0)
 
