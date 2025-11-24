@@ -41,9 +41,9 @@ humidifier_humidity_rules = [
 ]
 rules.extend(humidifier_humidity_rules)
 
-humidifier_delta_humidity_rules = [
-    ctrl.Rule(delta_hum['decreasing'], humidifier_dehumidifier['humidifying']),
-    ctrl.Rule(delta_hum['stable'], humidifier_dehumidifier['off']),
-    ctrl.Rule(delta_hum['increasing'], humidifier_dehumidifier['dehumidifying'])
-]
+#humidifier_delta_humidity_rules = [
+#    ctrl.Rule(delta_hum['decreasing'], humidifier_dehumidifier['humidifying']),
+#    ctrl.Rule(delta_hum['stable'], humidifier_dehumidifier['off']),
+#    ctrl.Rule(delta_hum['increasing'], humidifier_dehumidifier['dehumidifying'])
+#]
 #rules.extend(humidifier_delta_humidity_rules)
