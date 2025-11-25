@@ -9,10 +9,10 @@ from universes import universes
 #delta_humidity = ctrl.Antecedent(np.linspace(-100, 100, num_points), 'delta_humidity')  # -100 to 100% change
 
 temperature = ctrl.Antecedent(universes['temperature'], 'temperature')  # -50 to 50 degrees Celsius
-temperature['freezing'] = 1 - fuzz.trapmf(universes['temperature'], [-20, 0, mm.TEMP_MAX, mm.TEMP_MAX])
-temperature['cold'] = fuzz.trapmf(universes['temperature'], [-15, 5, 12, 18])
-temperature['warm'] = fuzz.trapmf(universes['temperature'], [15, 18, 27, 35])
-temperature['hot'] = fuzz.trapmf(universes['temperature'], [22, 32, mm.TEMP_MAX, mm.TEMP_MAX])
+temperature['freezing'] = 1 - fuzz.trapmf(universes['temperature'], [-20 - 20, 0 - 20, mm.TEMP_MAX, mm.TEMP_MAX])
+temperature['cold'] = fuzz.trapmf(universes['temperature'], [-15 - 20, 5 - 20, 12 - 20, 18 - 20])
+temperature['warm'] = fuzz.trapmf(universes['temperature'], [15 - 20, 18 - 20, 27 - 20, 35 - 20])
+temperature['hot'] = fuzz.trapmf(universes['temperature'], [22 - 20, 32 - 20, mm.TEMP_MAX, mm.TEMP_MAX])
 
 humidity = ctrl.Antecedent(universes['humidity'], 'humidity')      # 0 to 100%
 humidity['dry'] = 1 - fuzz.trapmf(universes['humidity'], [0, 40, mm.HUM_MAX, mm.HUM_MAX])
