@@ -35,8 +35,12 @@ if __name__ == "__main__":
     x_smooth = np.linspace(0, 24*14-1, 1000)
     x = np.arange(0, 24*14, 1)
     temps = [outdoor_temp_by_hour(xi) for xi in x]
-    plt.scatter(x, temps, label='temperature data', color='red')
+    plt.scatter(x, temps, label='Temperature', color='red')
 
     plt.plot(x, outdoor_temp_by_hour(x), label='Cubic Spline Temp')
 
+    plt.xlabel('Hour')
+    plt.ylabel('Temperature (\u00B0C)')
+    plt.title('Cubic Spline Interpolation of Temperature over 14 Days')
+    plt.legend()
     plt.savefig('misc/cubic_spline_temp.png')
